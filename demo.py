@@ -1,10 +1,21 @@
 import json
 
+with open('data_file.json', 'r') as f:
+     data = json.load(f)
+
+print(data)
+del data['test']
+print(data)
+
+with open('data_file.json', 'w') as f:
+        json.dump(data, f)
+
 # with open("data_file.json", "w") as write_file:
-#   json.dump(data, write_file)
+#      data = json.load(write_file)
+
 
 # with open("data_file.json", "r") as f:
-#     data = json.load(f)
+#     data = json.load("data_file")
 
 # --------------------------------
 # print(data)
@@ -20,10 +31,3 @@ import json
 
 # with open('data_file.json', 'w') as f:
 #     json.dump(data, f)
-
-a = {'a': 'a1',
-     'b': 'b1',
-     'c': 'c1'}
-
-for i in a:
-    print(a[i])
