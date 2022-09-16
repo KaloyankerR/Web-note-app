@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Landing page{% endblock %}
+{% block title %}Home page{% endblock %}
 
 {% block body %}
 <h1>Note app</h1>
@@ -15,11 +15,30 @@
         <span class="input-group-text">Your note</span>
         <textarea name="note" class="form-control" aria-label="With textarea"></textarea>
     </div><br>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary w-50 mx-auto">Add</button>
 </form><br>
 
-{% for title in data.keys() %}
-<p>{{title}} - {{data[title]}}</p>
+{% for note in data %}
+<div class="start-50 w-75 h-auto mx-auto">
+    <div class="border border-success p-2 mb-2">
+        <h4>{{note}}</h4>
+        <p name="description">{{data[note]}}</p>
+
+        <div>
+            <a href="/update/{{note}}">
+                <button class="btn btn-warning">
+                    Update
+                </button>
+            </a>
+
+            <a href="/delete/{{note}}">
+                <button class="btn btn-danger">
+                    Delete
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
 {% endfor %}
 
 {% endblock %}
