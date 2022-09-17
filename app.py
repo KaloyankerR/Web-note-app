@@ -1,4 +1,4 @@
-from ast import dump
+from ast import Str
 import json
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
@@ -33,21 +33,30 @@ def delete_json_data(json_key):
     dump_json_data(new_data=data)
 
 
+def is_valid_str(note_title: str, note: Str):
+    if note_title != "" and note != "":
+        return True
+    return False
+
+
 @app.route('/', methods=['POST', 'GET'])
 def home():
     if request.method == 'POST':
         note_title = request.form['note_title']
         note = request.form['note']
+
+        if not is_valid_str(note_title=note_title, note=note):
+            flash("You typed the note incorrectly")
+            return redirect(url_for('home'))
+
         res = {note_title: note}
-        # with open('data.json', 'r') as f:
-        #     data = json.load(f)
         data = get_json_data()
         data.update(res)
 
         with open('data.json', 'w') as f:
             json.dump(data, f)
 
-        return render_template('index.html', data=get_json_data())
+        return render_template('index.html', data=get_json_data())  
     else:
         return render_template('index.html', data=get_json_data())
 
@@ -74,7 +83,6 @@ def update_note(note):
 def delete_note(note):
     delete_json_data(json_key=note)
     return redirect('/')
-    
 
 
 if __name__ == '__main__':

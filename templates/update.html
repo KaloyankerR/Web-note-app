@@ -3,17 +3,21 @@
 {% block title %}Update page{% endblock %}
 
 {% block body %}
-<form action="#", method="post">
-    <div class="input-group mb-3">
-        <span class="input-group-text">Note title</span>
-        <input type="text" class="form-control" name="note_title" value="{{note}}">
-    </div>
-    <div class="input-group mb-3">
-        <span class="input-group-text">Note</span>
-        <input type="text" class="form-control" name="note" value="{{description}}">
-    </div>
+<div class="alertDiv">
+    <form action="#" , method="post">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Note title</span>
+            <input type="text" class="form-control" name="note_title" value="{{note}}">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Note</span>
+            <input type="text" class="form-control" name="note" value="{{description}}">
+        </div>
+</div>
 
+<div class="centerDiv">
     <button type="submit" class="btn btn-warning w-50 mx-auto">Update</button>
+</div>
 </form>
 
 {% endblock %}

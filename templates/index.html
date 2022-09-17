@@ -7,15 +7,17 @@
 <form action="#" method="post">
     <div class="input-group mb-3">
         <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-        <input name="note_title" type="text" class="form-control" aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default">
+        <input name="note_title" type="text" class="form-control">
     </div>
 
     <div class="input-group">
         <span class="input-group-text">Your note</span>
-        <textarea name="note" class="form-control" aria-label="With textarea"></textarea>
-    </div><br>
-    <button type="submit" class="btn btn-primary w-50 mx-auto">Add</button>
+        <textarea name="note" class="form-control"></textarea>
+    </div>
+
+    <div class="centerDiv">
+        <button type="submit" class="btn btn-primary w-50">Add</button>
+    </div>
 </form><br>
 
 {% for note in data %}
