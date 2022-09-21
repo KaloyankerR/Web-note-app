@@ -1,46 +1,31 @@
 {% extends 'base.html' %}
 
-{% block title %}Home page{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block body %}
-<h1>Note app</h1>
-<form action="#" method="post">
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
-        <input name="note_title" type="text" class="form-control">
+<div class="loginForm">
+    <div class="display-1 centerDiv">
+        Login page
     </div>
 
-    <div class="input-group">
-        <span class="input-group-text">Your note</span>
-        <textarea name="note" class="form-control"></textarea>
-    </div>
-
-    <div class="centerDiv">
-        <button type="submit" class="btn btn-primary w-50">Add</button>
-    </div>
-</form><br>
-
-{% for note in data %}
-<div class="start-50 w-75 h-auto mx-auto">
-    <div class="border border-success p-2 mb-2">
-        <h4>{{note}}</h4>
-        <p name="description">{{data[note]}}</p>
-
+    <div>
         <div>
-            <a href="/update/{{note}}">
-                <button class="btn btn-warning">
-                    Update
-                </button>
-            </a>
+            <form action="#" method="post">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="text" class="form-control" name="email">
+                    <div class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
 
-            <a href="/delete/{{note}}">
-                <button class="btn btn-danger">
-                    Delete
-                </button>
-            </a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="/register">Registration</a>
+            </form>
         </div>
     </div>
 </div>
-{% endfor %}
 
 {% endblock %}
