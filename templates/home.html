@@ -3,6 +3,8 @@
 {% block title %}Home page{% endblock %}
 
 {% block body %}
+
+
 <div class="container">
     <h1>Note app</h1>
     <form action="#" method="post">
@@ -21,28 +23,33 @@
         </div>
     </form><br>
 
+
+
     {% for note in data %}
     <div class="start-50 w-75 h-auto mx-auto">
         <div class="border border-success p-2 mb-2">
             <h4>{{note}}</h4>
-            <p name="description">{{data[note]}}</p>
+            <p style="word-wrap: break-word;" name="description">{{data[note]}}</p>
 
             <div>
-                <a href="/update/{{note}}">
+                <a class="note" href="/update/{{note}}">
                     <button class="btn btn-warning">
                         Update
                     </button>
                 </a>
 
-                <a href="/delete/{{note}}">
+                <a class="note" href="/delete/{{note}}">
                     <button class="btn btn-danger">
                         Delete
                     </button>
                 </a>
             </div>
+
         </div>
+
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
+
 
 {% endblock %}

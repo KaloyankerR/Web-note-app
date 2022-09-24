@@ -23,6 +23,17 @@ def show_users():
     return res
 
 
+def show_user(user_email):
+    global users_cursor
+
+    sql = "SELECT * FROM users WHERE UserEmail = %s"
+    val = (user_email, )
+    users_cursor.execute(sql, val)
+    res = users_cursor.fetchall()
+    # print(res)
+    # print(res[0][1])
+    return res
+
 users_db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -31,3 +42,4 @@ users_db = mysql.connector.connect(
 )
 
 users_cursor = users_db.cursor()
+# show_user("kaloyankerr")

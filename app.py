@@ -1,7 +1,7 @@
 import json
-from database import users_db, users_cursor
+from database import show_user, users_db, users_cursor
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
 
 app = Flask(__name__)
 app.secret_key = 'hjhaueraisdkm23jfalskjdf'
@@ -19,11 +19,11 @@ def dump_json_data(new_data):
 
 
 def update_json_data(json_key, json_value):
+    # with open('data.json', 'w') as f:
+    #     json.dump(data, f)
     data = get_json_data()
     data[json_key] = json_value
     dump_json_data(new_data=data)
-    # with open('data.json', 'w') as f:
-    #     json.dump(data, f)
 
 
 def delete_json_data(json_key):
@@ -36,6 +36,7 @@ def is_valid_str(note_title: str, note: str):
     if note_title != "" and note != "":
         return True
     return False
+# TODO: Check if it is a proper string
 
 
 def is_correct(users_data, email, password):
@@ -43,6 +44,15 @@ def is_correct(users_data, email, password):
         if email == user[2] and password == user[3]:
             return True
     return False
+
+
+def set_session_data(email):
+    res = show_user(user_email=email)
+    session['UserName'] = res[0][1]
+    session['UserEmail'] = res[0][2]
+    session['FirstName'] = res[0][4]
+    session['LastName'] = res[0][5]
+    return res
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -55,9 +65,11 @@ def login():
         users = users_cursor.fetchall()
 
         if is_correct(users_data=users, email=email, password=password):
+            set_session_data(email=email)
+            flash("You logged in successfully!", "success")
             return redirect(url_for('home'))
         else:
-            flash("Data incorrect!")
+            flash("You don't have an account!", "danger")
             return redirect(url_for('login'))
     else:
         return render_template("index.html")
@@ -77,15 +89,16 @@ def register():
         is_valid = [True if email in x[1] else False for x in res][0]
 
         if not is_valid:
-            sql = ("INSERT INTO users (Username, UserEmail, UserPass, FirstName, LastName) VALUES (%s, %s, %s, %s, %s)")
+            sql = (
+                "INSERT INTO users (Username, UserEmail, UserPass, FirstName, LastName) VALUES (%s, %s, %s, %s, %s)")
             val = (username, email, password, first_name, last_name)
             users_cursor.execute(sql, val)
             users_db.commit()
 
-            flash("You successfully created an account!")
+            flash("You successfully created an account!", "success")
             return redirect(url_for('login'))
         else:
-            flash("You've an account already")
+            flash("You've an account already", "danger")
             return redirect(url_for('login'))
     else:
         return render_template('register.html')
@@ -98,7 +111,7 @@ def home():
         note = request.form['note']
 
         if not is_valid_str(note_title=note_title, note=note):
-            flash("You typed the note incorrectly")
+            flash("You typed the note incorrectly", "danger")
             return redirect(url_for('home'))
 
         res = {note_title: note}
@@ -129,6 +142,15 @@ def update_note(note):
         return redirect('/home')
     else:
         return render_template("update.html", note=note, description=description)
+
+
+@app.route('/account')
+def account():
+    user_name = session['UserName']
+    user_email = session['UserEmail']
+    first_name = session['FirstName']
+
+    return render_template("account.html", user_name=user_name, email=user_email, first_name=first_name)
 
 
 @app.route('/delete/<note>', methods=['POST', 'GET'])
