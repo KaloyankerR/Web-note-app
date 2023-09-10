@@ -37,7 +37,7 @@ def show_user(user_email):
 users_db = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Berkely_3106_@",
+    password="shokolad2912",
     database="note_app"
 )
 
